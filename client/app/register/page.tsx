@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { API } from "@/app/lib/api";
 
 export default function Register() {
   const router = useRouter();
@@ -24,7 +25,8 @@ export default function Register() {
       setMessage("Password must be at least 6 characters");
       return;
     }
-    const res = await fetch("http://localhost:5000/auth/register", {
+    // const res = await fetch("http://localhost:5000/auth/register", {
+    const res = await fetch(`${API}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

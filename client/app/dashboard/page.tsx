@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { API } from "@/app/lib/api";
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState<any[]>([]);
@@ -17,7 +18,7 @@ export default function Dashboard() {
       return;
     }
 
-    const res = await fetch("http://localhost:5000/tasks?limit=100", {
+    const res = await fetch(`${API}/tasks?limit=100`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -51,7 +52,7 @@ export default function Dashboard() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/tasks", {
+    const res = await fetch(`${API}/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +99,7 @@ export default function Dashboard() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:5000/tasks/${id}/toggle`, {
+      const res = await fetch(`${API}/tasks/${id}/toggle`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -133,7 +134,7 @@ export default function Dashboard() {
       setEditingId(null);
       return;
     }
-    await fetch(`http://localhost:5000/tasks/${editingId}`, {
+    await fetch(`${API}/tasks/${editingId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -152,7 +153,7 @@ export default function Dashboard() {
     setTasks((prev) => prev.filter((t) => t.id !== id));
     const token = localStorage.getItem("token");
 
-    await fetch(`http://localhost:5000/tasks/${id}`, {
+    await fetch(`${API}/tasks/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
