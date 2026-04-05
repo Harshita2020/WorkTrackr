@@ -3,42 +3,45 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Register() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-
-  const handleLogin = async () => {
-    if (!email || !password) {
-      setMessage("Missing fields");
+  const handleRegister = async () => {
+    if (!email.trim() || !password.trim()) {
+      setMessage("All fields are required");
       return;
     }
 
-    try {
-      const res = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+    if (!email.includes("@")) {
+      setMessage("Invalid email");
+      return;
+    }
 
-      const data = await res.json();
+    if (password.length < 6) {
+      setMessage("Password must be at least 6 characters");
+      return;
+    }
+    const res = await fetch("http://localhost:5000/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-      if (data.status === "success") {
-        setMessage(data.message);
+    const data = await res.json();
 
-        setTimeout(() => {
-          localStorage.setItem("token", data.data.accessToken);
-          router.push("/dashboard");
-        }, 1000);
-      } else {
-        setMessage(data.message);
-      }
-    } catch (error) {
-      setMessage("Something went wrong");
+    if (data.status === "success") {
+      setMessage(data.message);
+
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } else {
+      setMessage(data.message);
     }
   };
 
@@ -46,13 +49,13 @@ export default function Home() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        handleLogin();
+        handleRegister();
       }}
       className="flex flex-col gap-4"
     >
       <div className="min-h-screen flex items-center justify-center bg-black text-white px-4">
-        <div className="w-full max-w-sm border border-gray-700 p-6 rounded-lg flex flex-col gap-4">
-          <h1 className="text-2xl font-bold text-center">Login</h1>
+        <div className="w-full max-w-sm border border-gray-700 p-10 rounded-lg flex flex-col gap-4 ">
+          <h1 className="text-2xl font-bold text-center">Register</h1>
 
           <input
             className="border border-gray-600 bg-black p-2 rounded focus:outline-none focus:border-white"
@@ -73,17 +76,20 @@ export default function Home() {
               setPassword(e.target.value);
               setMessage("");
             }}
+            // onKeyDown={(e) => {
+            //   if (e.key === "Enter") {
+            //     handleRegister();
+            //   }
+            // }}
           />
 
-          <button
-            type="submit"
+          <button type="submit"
             className="border border-white px-4 py-2 hover:bg-white hover:text-black transition cursor-pointer"
-            // onClick={handleLogin}
+            // onClick={handleRegister}
           >
-            Login
+            Register
           </button>
 
-          {/* ✅ Reserved message space (NO LAYOUT SHIFT) */}
           <div className="h-12 flex items-center justify-center">
             {message && (
               <div
@@ -100,9 +106,9 @@ export default function Home() {
 
           <p
             className="text-blue-500 cursor-pointer hover:underline text-center"
-            onClick={() => router.push("/register")}
+            onClick={() => router.push("/")}
           >
-            Don't have an account? Register
+            Already have an account? Login
           </p>
         </div>
       </div>

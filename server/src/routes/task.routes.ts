@@ -9,7 +9,8 @@ taskRoutes.post("/", authMiddleware, async (req: any, res) => {
   try {
     const { title } = req.body;
 
-    if (!title) {
+   
+    if (!title || !title.trim()) {
       return errorResponse(res, "Title is required", 400);
     }
 
@@ -29,7 +30,7 @@ taskRoutes.post("/", authMiddleware, async (req: any, res) => {
 // Get all tasks for the authenticated user
 taskRoutes.get("/", authMiddleware, async (req: any, res) => {
   try {
-    const { page = "1", limit = "10", status, search } = req.query;
+    const { page = "1", limit = "100", status, search } = req.query;
 
     const pageNumber = parseInt(page);
     const pageSize = parseInt(limit);
@@ -51,6 +52,10 @@ taskRoutes.get("/", authMiddleware, async (req: any, res) => {
 
     const tasks = await prisma.task.findMany({
       where,
+      orderBy: [
+        { completed: "asc" }, 
+        { createdAt: "desc" },
+      ],
       skip: (pageNumber - 1) * pageSize,
       take: pageSize,
     });
