@@ -18,7 +18,6 @@ export default function Home() {
     }
 
     try {
-      // const res = await fetch("http://localhost:5000/auth/login", {
       const res = await fetch(`${API}/auth/login`, {
         method: "POST",
         headers: {
@@ -80,7 +79,6 @@ export default function Home() {
           <button
             type="submit"
             className="border border-white px-4 py-2 hover:bg-white hover:text-black transition cursor-pointer"
-            // onClick={handleLogin}
           >
             Login
           </button>

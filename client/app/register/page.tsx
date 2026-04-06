@@ -25,7 +25,6 @@ export default function Register() {
       setMessage("Password must be at least 6 characters");
       return;
     }
-    // const res = await fetch("http://localhost:5000/auth/register", {
     const res = await fetch(`${API}/auth/register`, {
       method: "POST",
       headers: {
@@ -78,16 +77,10 @@ export default function Register() {
               setPassword(e.target.value);
               setMessage("");
             }}
-            // onKeyDown={(e) => {
-            //   if (e.key === "Enter") {
-            //     handleRegister();
-            //   }
-            // }}
           />
 
           <button type="submit"
             className="border border-white px-4 py-2 hover:bg-white hover:text-black transition cursor-pointer"
-            // onClick={handleRegister}
           >
             Register
           </button>

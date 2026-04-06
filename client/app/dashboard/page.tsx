@@ -76,18 +76,6 @@ export default function Dashboard() {
     }
   };
 
-  //   const toggleTask = async (id: string) => {
-  //     const token = localStorage.getItem("token");
-
-  //     await fetch(`http://localhost:5000/tasks/${id}/toggle`, {
-  //       method: "PATCH",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     fetchTasks();
-  //   };
   const toggleTask = async (id: string) => {
     const prevTasks = tasks;
 
@@ -159,16 +147,14 @@ export default function Dashboard() {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    // fetchTasks();
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex justify-center px-4 py-6">
+    <div className="min-h-screen bg-black text-white flex justify-center px-4 py-8">
       <div className="w-full max-w-2xl flex flex-col">
         {/* HEADER */}
         <div className="relative flex items-center mb-6">
-          <h1 className="text-3xl font-bold mx-auto">WorkTrackr</h1>
+          <h1 className="text-5xl font-bold mx-auto ">WorkTrackr</h1>
 
           <button
             className="absolute right-0 text-red-400 border px-3 py-1 hover:bg-red-500 hover:text-white transition cursor-pointer"

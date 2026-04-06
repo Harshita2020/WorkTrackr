@@ -10,7 +10,7 @@ router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // basic validation (don’t overdo)
+    // basic validation 
     if (!email || !password) {
       return errorResponse(res, "Missing fields", 400);
     }
